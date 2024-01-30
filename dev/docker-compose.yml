@@ -1,0 +1,39 @@
+services:
+  api:
+    build:
+      context: ../
+      dockerfile: docker-specs/Dockerfile
+      args:
+        INSTALL_DEV: ${INSTALL_DEV-true}
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ../.env
+    ports:
+      - "8082:80"
+    volumes:
+      - ../app:/opt/app:rw,cached
+    entrypoint: /opt/entrypoint.sh
+    command: /start-reload.sh
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/api/healthcheck"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  db:
+    image: postgres:14
+    env_file:
+      - ../.env
+    ports:
+      - "5434:5432"
+    user: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  app-db-data:

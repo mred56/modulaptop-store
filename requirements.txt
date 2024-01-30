@@ -1,0 +1,7 @@
+pip
+setuptools
+wheel
+
+uvicorn[standard]==0.20.0
+fastapi==0.87.0
+python-json-logger>=2.0,<3.0

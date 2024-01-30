@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "demo-access-control-manager"
+version = "0.1.0"
+description = ""
+authors = ["Viktor Sapozhnyk <viktor.sapozhnyk@globallogic.com>"]
+readme = "README.md"
+packages = [
+    { include = "app" },
+]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+no_implicit_optional = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+disallow_any_generics = true
+check_untyped_defs = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_ignores = true
+plugins = [
+    "sqlalchemy.ext.mypy.plugin",
+    "pydantic.mypy"
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+uvicorn = "^0.22.0"
+fastapi = "^0.99.1"
+pydantic = {version = "^1.10.11", extras = ["email"]}
+sqlalchemy = {extras = ["mypy"], version = "^2.0.17"}
+asyncpg = "^0.28.0"
+alembic = "^1.11.1"
+pytz = "^2022.1"
+httpx = "^0.24.1"
+python-dotenv = "^1.0.0"
+sqlalchemy-utils = "^0.41.1"
+python-jose = "^3.3.0"
+requests = "^2.31.0"
+psycopg2-binary = "^2.9.9"
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+factory-boy = "^3.3.0"
+asgi-lifespan = "^2.1.0"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+exclude = '''
+(
+    \.git
+  | env
+  | dev
+  | docker-specs
+  | migrations/versions
+)
+'''
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
